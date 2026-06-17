@@ -1,1052 +1,1134 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tushar Kachare – Portfolio</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap"
-    rel="stylesheet" />
-  <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --bg: #0a0c0f;
-      --surface: #111418;
-      --surface2: #161b22;
-      --border: #21262d;
-      --accent: #00d4aa;
-      --accent2: #7c3aed;
-      --text: #e6edf3;
-      --muted: #7d8590;
-      --mono: 'JetBrains Mono', monospace;
-      --sans: 'Inter', sans-serif;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2.5rem;
-      background: rgba(10, 12, 15, 0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      transition: all 0.3s;
-    }
-
-    .nav-logo {
-      font-family: var(--mono);
-      font-weight: 700;
-      font-size: 1rem;
-      color: var(--accent);
-      letter-spacing: 0.05em;
-    }
-
-    .nav-logo span {
-      color: var(--muted);
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 2rem;
-    }
-
-    nav ul a {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--muted);
-      text-decoration: none;
-      letter-spacing: 0.05em;
-      transition: color 0.2s;
-    }
-
-    nav ul a:hover {
-      color: var(--accent);
-    }
-
-    /* ── HERO ── */
-    #hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 6rem 2.5rem 4rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-grid-bg {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0, 212, 170, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 212, 170, 0.04) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
-    }
-
-    .hero-glow {
-      position: absolute;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(0, 212, 170, 0.08) 0%, transparent 70%);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-    }
-
-    .hero-inner {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 4rem;
-      align-items: center;
-      max-width: 1000px;
-      width: 100%;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-tag {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--accent);
-      letter-spacing: 0.12em;
-      margin-bottom: 1rem;
-      opacity: 0;
-      animation: fadeUp 0.6s 0.2s forwards;
-    }
-
-    .hero-name {
-      font-family: var(--mono);
-      font-size: clamp(2.4rem, 5vw, 3.8rem);
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.35s forwards;
-    }
-
-    .hero-name .accent {
-      color: var(--accent);
-    }
-
-    .hero-role {
-      font-family: var(--mono);
-      font-size: clamp(0.9rem, 2vw, 1.1rem);
-      color: var(--muted);
-      margin-top: 0.8rem;
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.5s forwards;
-    }
-
-    .hero-role .cursor {
-      display: inline-block;
-      width: 2px;
-      height: 1.1em;
-      background: var(--accent);
-      vertical-align: text-bottom;
-      animation: blink 1s step-end infinite;
-      margin-left: 2px;
-    }
-
-    .hero-bio {
-      font-size: 1rem;
-      color: #a0aab4;
-      max-width: 520px;
-      line-height: 1.75;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.65s forwards;
-    }
-
-    .hero-cta {
-      display: flex;
-      gap: 1rem;
-      margin-top: 2.2rem;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.8s forwards;
-    }
-
-    .btn-primary {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      letter-spacing: 0.06em;
-      padding: 0.7rem 1.5rem;
-      background: var(--accent);
-      color: #000;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      text-decoration: none;
-      font-weight: 600;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
-    }
-
-    .btn-outline {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      letter-spacing: 0.06em;
-      padding: 0.7rem 1.5rem;
-      background: transparent;
-      color: var(--accent);
-      border: 1px solid rgba(0, 212, 170, 0.4);
-      border-radius: 4px;
-      cursor: pointer;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background 0.2s, transform 0.2s;
-    }
-
-    .btn-outline:hover {
-      background: rgba(0, 212, 170, 0.08);
-      transform: translateY(-2px);
-    }
-
-    .hero-photo-wrap {
-      opacity: 0;
-      animation: fadeIn 0.9s 0.5s forwards;
-    }
-
-    .hero-photo {
-      width: 200px;
-      height: 200px;
-      border-radius: 12px;
-      object-fit: cover;
-      border: 2px solid var(--border);
-      box-shadow: 0 0 60px rgba(0, 212, 170, 0.12);
-    }
-
-    .hero-photo-placeholder {
-      width: 200px;
-      height: 200px;
-      border-radius: 12px;
-      background: var(--surface2);
-      border: 2px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 0.5rem;
-      box-shadow: 0 0 60px rgba(0, 212, 170, 0.12);
-    }
-
-    .hero-photo-placeholder .initials {
-      font-family: var(--mono);
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    .hero-photo-placeholder .ph-label {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-    }
-
-    /* ── SECTION COMMONS ── */
-    section {
-      padding: 6rem 2.5rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .section-label {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--accent);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
-    }
-
-    .section-title {
-      font-family: var(--mono);
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
-    }
-
-    .section-title .accent {
-      color: var(--accent);
-    }
-
-    .section-divider {
-      width: 48px;
-      height: 2px;
-      background: var(--accent);
-      margin-bottom: 3rem;
-    }
-
-    /* ── ABOUT ── */
-    #about {
-      border-top: 1px solid var(--border);
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: start;
-    }
-
-    .about-text p {
-      color: #a0aab4;
-      margin-bottom: 1rem;
-      font-size: 0.975rem;
-      line-height: 1.8;
-    }
-
-    .about-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.2rem;
-    }
-
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.4rem;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-
-    .stat-card:hover {
-      border-color: rgba(139, 167, 161, 0.4);
-      transform: translateY(-2px);
-    }
-
-    .stat-val {
-      font-family: var(--mono);
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--accent);
-      line-height: 1;
-    }
-
-    .stat-lbl {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--muted);
-      margin-top: 0.3rem;
-      letter-spacing: 0.06em;
-    }
-
-    /* ── PROJECTS ── */
-    #projects {
-      border-top: 1px solid var(--border);
-    }
-
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-    }
-
-    .project-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.8rem;
-      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .project-card:hover {
-      border-color: rgba(0, 212, 170, 0.3);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-    }
-
-    .project-card:hover::before {
-      opacity: 1;
-    }
-
-    .project-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 0.8rem;
-    }
-
-    .project-name {
-      font-family: var(--mono);
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .project-date {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      color: var(--muted);
-      letter-spacing: 0.05em;
-      white-space: nowrap;
-    }
-
-    .project-desc {
-      font-size: 0.875rem;
-      color: #8b96a5;
-      line-height: 1.7;
-      margin-bottom: 1.2rem;
-    }
-
-    .project-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .tag {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      color: var(--accent);
-      background: rgba(0, 212, 170, 0.08);
-      border: 1px solid rgba(0, 212, 170, 0.2);
-      padding: 0.2rem 0.6rem;
-      border-radius: 3px;
-      letter-spacing: 0.04em;
-    }
-
-    .project-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--muted);
-      text-decoration: none;
-      margin-top: 1rem;
-      transition: color 0.2s;
-    }
-
-    .project-link:hover {
-      color: var(--accent);
-    }
-
-    /* ── SKILLS ── */
-    #skills {
-      border-top: 1px solid var(--border);
-    }
-
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-    }
-
-    .skill-category {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.6rem;
-      transition: border-color 0.2s;
-    }
-
-    .skill-category:hover {
-      border-color: rgba(0, 212, 170, 0.25);
-    }
-
-    .skill-cat-title {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--accent);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      margin-bottom: 1.2rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .skill-cat-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    .skill-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-    }
-
-    .skill-pill {
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      color: #c9d1d9;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      padding: 0.35rem 0.8rem;
-      border-radius: 4px;
-      transition: border-color 0.2s, color 0.2s, transform 0.2s;
-    }
-
-    .skill-pill:hover {
-      border-color: rgba(0, 212, 170, 0.4);
-      color: var(--accent);
-      transform: translateY(-1px);
-    }
-
-    /* ── CONTACT ── */
-    #contact {
-      border-top: 1px solid var(--border);
-      text-align: center;
-    }
-
-    .contact-inner {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .contact-sub {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 2.5rem;
-      line-height: 1.7;
-    }
-
-    .contact-links {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-bottom: 2.5rem;
-    }
-
-    .contact-link {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--muted);
-      text-decoration: none;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 0.6rem 1.2rem;
-      border-radius: 6px;
-      transition: color 0.2s, border-color 0.2s, transform 0.2s;
-    }
-
-    .contact-link:hover {
-      color: var(--accent);
-      border-color: rgba(0, 212, 170, 0.4);
-      transform: translateY(-2px);
-    }
-
-    .contact-email {
-      font-family: var(--mono);
-      font-size: 1.1rem;
-      color: var(--text);
-    }
-
-    .contact-email a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .contact-email a:hover {
-      text-decoration: underline;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 2rem 2.5rem;
-      text-align: center;
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--muted);
-    }
-
-    /* ── SCROLL REVEAL ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .reveal-delay-1 {
-      transition-delay: 0.1s;
-    }
-
-    .reveal-delay-2 {
-      transition-delay: 0.2s;
-    }
-
-    .reveal-delay-3 {
-      transition-delay: 0.3s;
-    }
-
-    .reveal-delay-4 {
-      transition-delay: 0.4s;
-    }
-
-    /* ── KEYFRAMES ── */
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tushar Kachare – Portfolio</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-
-    @keyframes blink {
-      50% {
-        opacity: 0;
-      }
-    }
-
-    /* ── REDUCED MOTION ── */
-    @media (prefers-reduced-motion: reduce) {
-      .reveal {
-        transition: none;
+      :root {
+        --bg: #0a0c0f;
+        --surface: #111418;
+        --surface2: #161b22;
+        --border: #21262d;
+        --accent: #00d4aa;
+        --accent2: #7c3aed;
+        --text: #e6edf3;
+        --muted: #7d8590;
+        --mono: "JetBrains Mono", monospace;
+        --sans: "Inter", sans-serif;
       }
 
-      .hero-name,
-      .hero-role,
-      .hero-bio,
-      .hero-cta,
-      .hero-tag,
-      .hero-photo-wrap {
-        animation: none;
-        opacity: 1;
-        transform: none;
+      html {
+        scroll-behavior: smooth;
       }
-    }
 
-    /* ── MOBILE ── */
-    @media (max-width: 700px) {
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2.5rem;
+        background: rgba(10, 12, 15, 0.85);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        transition: all 0.3s;
+      }
+
+      .nav-logo {
+        font-family: var(--mono);
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--accent);
+        letter-spacing: 0.05em;
+      }
+
+      .nav-logo span {
+        color: var(--muted);
+      }
+
       nav ul {
-        display: none;
+        list-style: none;
+        display: flex;
+        gap: 2rem;
+      }
+
+      nav ul a {
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        color: var(--muted);
+        text-decoration: none;
+        letter-spacing: 0.05em;
+        transition: color 0.2s;
+      }
+
+      nav ul a:hover {
+        color: var(--accent);
+      }
+
+      /* ── HERO ── */
+      #hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6rem 2.5rem 4rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-grid-bg {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(0, 212, 170, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 212, 170, 0.04) 1px, transparent 1px);
+        background-size: 60px 60px;
+        mask-image: radial-gradient(
+          ellipse 80% 80% at 50% 50%,
+          black,
+          transparent
+        );
+      }
+
+      .hero-glow {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(0, 212, 170, 0.08) 0%,
+          transparent 70%
+        );
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
       }
 
       .hero-inner {
-        grid-template-columns: 1fr;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 4rem;
+        align-items: center;
+        max-width: 1000px;
+        width: 100%;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-tag {
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        color: var(--accent);
+        letter-spacing: 0.12em;
+        margin-bottom: 1rem;
+        opacity: 0;
+        animation: fadeUp 0.6s 0.2s forwards;
+      }
+
+      .hero-name {
+        font-family: var(--mono);
+        font-size: clamp(2.4rem, 5vw, 3.8rem);
+        font-weight: 700;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        opacity: 0;
+        animation: fadeUp 0.7s 0.35s forwards;
+      }
+
+      .hero-name .accent {
+        color: var(--accent);
+      }
+
+      .hero-role {
+        font-family: var(--mono);
+        font-size: clamp(0.9rem, 2vw, 1.1rem);
+        color: var(--muted);
+        margin-top: 0.8rem;
+        margin-bottom: 1.5rem;
+        opacity: 0;
+        animation: fadeUp 0.7s 0.5s forwards;
+      }
+
+      .hero-role .cursor {
+        display: inline-block;
+        width: 2px;
+        height: 1.1em;
+        background: var(--accent);
+        vertical-align: text-bottom;
+        animation: blink 1s step-end infinite;
+        margin-left: 2px;
+      }
+
+      .hero-bio {
+        font-size: 1rem;
+        color: #a0aab4;
+        max-width: 520px;
+        line-height: 1.75;
+        opacity: 0;
+        animation: fadeUp 0.7s 0.65s forwards;
+      }
+
+      .hero-cta {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2.2rem;
+        opacity: 0;
+        animation: fadeUp 0.7s 0.8s forwards;
+      }
+
+      .btn-primary {
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        letter-spacing: 0.06em;
+        padding: 0.7rem 1.5rem;
+        background: var(--accent);
+        color: #000;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        font-weight: 600;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+      }
+
+      .btn-outline {
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        letter-spacing: 0.06em;
+        padding: 0.7rem 1.5rem;
+        background: transparent;
+        color: var(--accent);
+        border: 1px solid rgba(0, 212, 170, 0.4);
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        font-weight: 600;
+        transition:
+          background 0.2s,
+          transform 0.2s;
+      }
+
+      .btn-outline:hover {
+        background: rgba(0, 212, 170, 0.08);
+        transform: translateY(-2px);
       }
 
       .hero-photo-wrap {
-        order: -1;
+        opacity: 0;
+        animation: fadeIn 0.9s 0.5s forwards;
       }
 
-      .hero-photo,
+      .hero-photo {
+        width: 200px;
+        height: 200px;
+        border-radius: 12px;
+        object-fit: cover;
+        border: 2px solid var(--border);
+        box-shadow: 0 0 60px rgba(0, 212, 170, 0.12);
+      }
+
       .hero-photo-placeholder {
-        width: 120px;
-        height: 120px;
+        width: 200px;
+        height: 200px;
+        border-radius: 12px;
+        background: var(--surface2);
+        border: 2px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 0.5rem;
+        box-shadow: 0 0 60px rgba(0, 212, 170, 0.12);
       }
 
       .hero-photo-placeholder .initials {
-        font-size: 1.6rem;
+        font-family: var(--mono);
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--accent);
       }
 
-      .about-grid,
-      .projects-grid,
-      .skills-grid {
-        grid-template-columns: 1fr;
+      .hero-photo-placeholder .ph-label {
+        font-family: var(--mono);
+        font-size: 0.65rem;
+        color: var(--muted);
+        letter-spacing: 0.1em;
       }
 
+      /* ── SECTION COMMONS ── */
       section {
-        padding: 4rem 1.25rem;
+        padding: 6rem 2.5rem;
+        max-width: 1100px;
+        margin: 0 auto;
       }
-    }
-  </style>
-</head>
 
-<body>
+      .section-label {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: var(--accent);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+      }
 
-  <!-- NAV -->
-  <nav>
-    <div class="nav-logo">Tushar<span>.dev</span></div>
-    <ul>
-      <li><a href="#about">about</a></li>
-      <li><a href="#projects">projects</a></li>
-      <li><a href="#skills">skills</a></li>
-      <li><a href="#contact">contact</a></li>
-    </ul>
-  </nav>
+      .section-title {
+        font-family: var(--mono);
+        font-size: clamp(1.6rem, 3vw, 2.2rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 1rem;
+      }
 
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-grid-bg"></div>
-    <div class="hero-glow"></div>
-    <div class="hero-inner">
-      <div>
-        <p class="hero-tag">// COEP Technological University · Pune</p>
-        <h1 class="hero-name">Tushar<br><span class="accent">Kachare</span></h1>
-        <p class="hero-role" id="role-text">Backend Engineer &amp; Builder<span class="cursor"></span></p>
-        <p class="hero-bio">
-          E&amp;TC undergrad building full-stack systems from scratch — from real-time WebSocket backends to geospatial
-          matchmaking apps. LeetCode Knight (top 5%) who ships products end-to-end.
-        </p>
-        <div class="hero-cta">
-          <a href="#projects" class="btn-primary">View Projects</a>
-          <a href="#contact" class="btn-outline">Get in Touch</a>
-          <a href="TusharResume.pdf" class="btn-outline" target="_blank">View Resume</a>
-        </div>
-      </div>
-      <div class="hero-photo-wrap">
-        <img src="tushar.jpeg" alt="Tushar Kachare" class="hero-photo">
-      </div>
-    </div>
-  </section>
+      .section-title .accent {
+        color: var(--accent);
+      }
 
-  <!-- ABOUT -->
-  <section id="about">
-    <p class="section-label reveal">// 01</p>
-    <h2 class="section-title reveal reveal-delay-1">About <span class="accent">Me</span></h2>
-    <div class="section-divider reveal reveal-delay-2"></div>
-    <div class="about-grid">
-      <div class="about-text reveal reveal-delay-1">
-        <p>
-          I'm a COEP Technological University graduate who loves building software and learning by doing. Instead of
-          studying concepts in isolation, I prefer taking projects from idea to deployment — designing databases,
-          building APIs, and shipping complete applications.
-        </p>
+      .section-divider {
+        width: 48px;
+        height: 2px;
+        background: var(--accent);
+        margin-bottom: 3rem;
+      }
 
-        <p>
-          My interests span backend engineering, system design, full-stack development, and AI/ML. I've built real-time
-          platforms, geospatial applications, and machine learning projects using technologies such as Node.js,
-          PostgreSQL, React, Python, WebSockets, and PostGIS.
-        </p>
+      /* ── ABOUT ── */
+      #about {
+        border-top: 1px solid var(--border);
+      }
 
-        <p>
-          Outside of development, I enjoy competitive programming and problem solving on LeetCode, CodeChef, and
-          Codeforces. I've qualified for Meta Hacker Cup Round 2 and achieved a global rank of 171 in CodeChef Starters.
-          I'm always looking for opportunities to tackle challenging problems, build useful products, and deepen my
-          understanding of scalable systems.
-        </p>
-      </div>
-      <div class="about-stats">
-        <div class="stat-card reveal reveal-delay-1">
-          <div class="stat-val">Knight</div>
-          <div class="stat-lbl">LeetCode · 1900+</div>
-        </div>
-        <div class="stat-card reveal reveal-delay-4">
-          <div class="stat-val">3★</div>
-          <div class="stat-lbl">CodeChef · 1733</div>
-        </div>
-      </div>
-    </div>
-  </section>
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: start;
+      }
 
-  <!-- PROJECTS -->
-  <section id="projects">
-    <p class="section-label reveal">// 02</p>
-    <h2 class="section-title reveal reveal-delay-1">Featured <span class="accent">Projects</span></h2>
-    <div class="section-divider reveal reveal-delay-2"></div>
-    <div class="projects-grid">
+      .about-text p {
+        color: #a0aab4;
+        margin-bottom: 1rem;
+        font-size: 0.975rem;
+        line-height: 1.8;
+      }
 
-      <div class="project-card reveal reveal-delay-1">
-        <div class="project-header">
-          <span class="project-name">Tradr</span>
-          <span class="project-date">Mar – Apr 2026</span>
-        </div>
-        <p class="project-desc">
-          Crypto social trading platform — public trade sharing with social feeds and real-time portfolio tracking.
-          Features a single persistent Binance WebSocket with in-memory price caching, a trade execution engine with
-          auto SL/TP closure, and a fully decoupled PostgreSQL schema with UUID PKs and soft deletes.
-        </p>
-        <div class="project-tags">
-          <span class="tag">Node.js</span>
-          <span class="tag">Express</span>
-          <span class="tag">PostgreSQL</span>
-          <span class="tag">Prisma</span>
-          <span class="tag">React</span>
-          <span class="tag">WebSocket</span>
-          <span class="tag">Tailwind</span>
-        </div>
-        <a href="https://github.com/tushar-kachare/Tradr" class="project-link">↗ GitHub · Tradr</a>
-      </div>
+      .about-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.2rem;
+      }
 
-      <div class="project-card reveal reveal-delay-2">
-        <div class="project-header">
-          <span class="project-name">SquadUp</span>
-          <span class="project-date">Jun 2026 – Present</span>
-        </div>
-        <p class="project-desc">
-          Hyperlocal sports matchmaking PWA where users discover nearby pickup games on a map and join with one tap.
-          Real-time slot sync via Socket.io, geospatial radius filtering (1–10km) with PostGIS, Firebase Auth (OTP +
-          OAuth), and Web Push notifications for nearby game alerts.
-        </p>
-        <div class="project-tags">
-          <span class="tag">Socket.io</span>
-          <span class="tag">PostGIS</span>
-          <span class="tag">Firebase</span>
-          <span class="tag">Google Maps</span>
-          <span class="tag">node-cron</span>
-          <span class="tag">React PWA</span>
-        </div>
-        <a href="https://github.com/tushar-kachare/SquadUp" class="project-link">↗ GitHub · SquadUp</a>
-      </div>
+      .stat-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 1.4rem;
+        transition:
+          border-color 0.2s,
+          transform 0.2s;
+      }
 
-      <div class="project-card reveal reveal-delay-3">
-        <div class="project-header">
-          <span class="project-name">Drowsiness Detection</span>
-          <span class="project-date">Mar – Apr 2025</span>
-        </div>
-        <p class="project-desc">
-          Real-time driver drowsiness detection using a CNN with transfer learning — 95% accuracy on a custom dataset of
-          open/closed eye images. Integrated with OpenCV for live webcam inference and connected to Arduino to trigger
-          buzzer alerts, simulating a driver assistance system.
-        </p>
-        <div class="project-tags">
-          <span class="tag">Python</span>
-          <span class="tag">CNN</span>
-          <span class="tag">Transfer Learning</span>
-          <span class="tag">OpenCV</span>
-          <span class="tag">Arduino</span>
-        </div>
-      </div>
+      .stat-card:hover {
+        border-color: rgba(139, 167, 161, 0.4);
+        transform: translateY(-2px);
+      }
 
-      <div class="project-card reveal reveal-delay-4">
-        <div class="project-header">
-          <span class="project-name">LiveWeb</span>
-          <span class="project-date">2024</span>
-        </div>
-        <p class="project-desc">
-          Browser-based live code editor built with Monaco Editor and a sandboxed iframe preview. Write HTML, CSS, and
-          JavaScript and see results update in real time — no build step, no server. A clean, minimal
-          devtools-in-the-browser experience.
-        </p>
-        <div class="project-tags">
-          <span class="tag">Monaco Editor</span>
-          <span class="tag">JavaScript</span>
-          <span class="tag">HTML/CSS</span>
-          <span class="tag">iframe sandbox</span>
-        </div>
-        <a href="https://github.com/tushar-kachare/LiveWeb" class="project-link">↗ GitHub · LiveWeb</a>
-      </div>
+      .stat-val {
+        font-family: var(--mono);
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--accent);
+        line-height: 1;
+      }
 
-    </div>
-  </section>
+      .stat-lbl {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: var(--muted);
+        margin-top: 0.3rem;
+        letter-spacing: 0.06em;
+      }
 
-  <!-- SKILLS -->
-  <section id="skills">
-    <p class="section-label reveal">// 03</p>
-    <h2 class="section-title reveal reveal-delay-1">Tech <span class="accent">Stack</span></h2>
-    <div class="section-divider reveal reveal-delay-2"></div>
-    <div class="skills-grid">
+      /* ── PROJECTS ── */
+      #projects {
+        border-top: 1px solid var(--border);
+      }
 
-      <div class="skill-category reveal reveal-delay-1">
-        <div class="skill-cat-title">Backend</div>
-        <div class="skill-pills">
-          <span class="skill-pill">Node.js</span>
-          <span class="skill-pill">Express.js</span>
-          <span class="skill-pill">PostgreSQL</span>
-          <span class="skill-pill">Prisma ORM</span>
-          <span class="skill-pill">PostGIS</span>
-          <span class="skill-pill">WebSocket</span>
-          <span class="skill-pill">Socket.io</span>
-          <span class="skill-pill">REST APIs</span>
-          <span class="skill-pill">node-cron</span>
-          <span class="skill-pill">Firebase Auth</span>
-        </div>
-      </div>
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
 
-      <div class="skill-category reveal reveal-delay-2">
-        <div class="skill-cat-title">Frontend</div>
-        <div class="skill-pills">
-          <span class="skill-pill">React.js</span>
-          <span class="skill-pill">React Router</span>
-          <span class="skill-pill">Tailwind CSS</span>
-          <span class="skill-pill">Vite</span>
-          <span class="skill-pill">PWA</span>
-          <span class="skill-pill">HTML/CSS</span>
-          <span class="skill-pill">Google Maps API</span>
-          <span class="skill-pill">Monaco Editor</span>
-        </div>
-      </div>
+      .project-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1.8rem;
+        transition:
+          border-color 0.25s,
+          transform 0.25s,
+          box-shadow 0.25s;
+        position: relative;
+        overflow: hidden;
+      }
 
-      <div class="skill-category reveal reveal-delay-3">
-        <div class="skill-cat-title">Languages</div>
-        <div class="skill-pills">
-          <span class="skill-pill">JavaScript</span>
-          <span class="skill-pill">C++</span>
-          <span class="skill-pill">Python</span>
-          <span class="skill-pill">SQL</span>
-        </div>
-      </div>
+      .project-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent), transparent);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
 
-      <div class="skill-category reveal reveal-delay-4">
-        <div class="skill-cat-title">Tools & ML</div>
-        <div class="skill-pills">
-          <span class="skill-pill">Docker</span>
-          <span class="skill-pill">Git / GitHub</span>
-          <span class="skill-pill">Scikit-Learn</span>
-          <span class="skill-pill">PyTorch</span>
-          <span class="skill-pill">OpenCV</span>
-          <span class="skill-pill">YOLOv8</span>
-          <span class="skill-pill">Cloudinary</span>
-          <span class="skill-pill">Vercel</span>
-        </div>
-      </div>
+      .project-card:hover {
+        border-color: rgba(0, 212, 170, 0.3);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+      }
 
-    </div>
-  </section>
+      .project-card:hover::before {
+        opacity: 1;
+      }
 
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="contact-inner">
-      <p class="section-label reveal">// 04</p>
-      <h2 class="section-title reveal reveal-delay-1">Get in <span class="accent">Touch</span></h2>
-      <div class="section-divider reveal reveal-delay-2" style="margin: 0 auto 2.5rem;"></div>
-      <p class="contact-sub reveal reveal-delay-2">
-        Open to internships, collaborations, and interesting problems. Whether you want to build something together or
-        just talk systems — my inbox is open.
-      </p>
-      <div class="contact-links reveal reveal-delay-3">
-        <a href="https://linkedin.com/in/tushar-kachare" class="contact-link" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-          </svg>
-          LinkedIn
-        </a>
-        <a href="https://github.com/tushar-kachare" class="contact-link" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-          </svg>
-          GitHub
-        </a>
-        <a href="https://leetcode.com/u/tushar_kachare" class="contact-link" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0zm-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H20.79a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z" />
-          </svg>
-          LeetCode
-        </a>
-      </div>
-      <p class="contact-email reveal reveal-delay-4">
-        <a href="mailto:kacharetushar05@gmail.com">kacharetushar05@gmail.com</a>
-      </p>
-    </div>
-  </section>
+      .project-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 0.8rem;
+      }
 
-  <footer>
-    <span>built by tushar kachare · 2026</span>
-  </footer>
+      .project-name {
+        font-family: var(--mono);
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text);
+      }
 
-  <script>
-    // Scroll reveal
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
+      .project-date {
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--muted);
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+      }
+
+      .project-desc {
+        font-size: 0.875rem;
+        color: #8b96a5;
+        line-height: 1.7;
+        margin-bottom: 1.2rem;
+      }
+
+      .project-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .tag {
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--accent);
+        background: rgba(0, 212, 170, 0.08);
+        border: 1px solid rgba(0, 212, 170, 0.2);
+        padding: 0.2rem 0.6rem;
+        border-radius: 3px;
+        letter-spacing: 0.04em;
+      }
+
+      .project-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        color: var(--muted);
+        text-decoration: none;
+        margin-top: 1rem;
+        transition: color 0.2s;
+      }
+
+      .project-link:hover {
+        color: var(--accent);
+      }
+
+      /* ── SKILLS ── */
+      #skills {
+        border-top: 1px solid var(--border);
+      }
+
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+
+      .skill-category {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1.6rem;
+        transition: border-color 0.2s;
+      }
+
+      .skill-category:hover {
+        border-color: rgba(0, 212, 170, 0.25);
+      }
+
+      .skill-cat-title {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        color: var(--accent);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .skill-cat-title::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      .skill-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+      }
+
+      .skill-pill {
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        color: #c9d1d9;
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        padding: 0.35rem 0.8rem;
+        border-radius: 4px;
+        transition:
+          border-color 0.2s,
+          color 0.2s,
+          transform 0.2s;
+      }
+
+      .skill-pill:hover {
+        border-color: rgba(0, 212, 170, 0.4);
+        color: var(--accent);
+        transform: translateY(-1px);
+      }
+
+      /* ── CONTACT ── */
+      #contact {
+        border-top: 1px solid var(--border);
+        text-align: center;
+      }
+
+      .contact-inner {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .contact-sub {
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin-bottom: 2.5rem;
+        line-height: 1.7;
+      }
+
+      .contact-links {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 2.5rem;
+      }
+
+      .contact-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        color: var(--muted);
+        text-decoration: none;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        padding: 0.6rem 1.2rem;
+        border-radius: 6px;
+        transition:
+          color 0.2s,
+          border-color 0.2s,
+          transform 0.2s;
+      }
+
+      .contact-link:hover {
+        color: var(--accent);
+        border-color: rgba(0, 212, 170, 0.4);
+        transform: translateY(-2px);
+      }
+
+      .contact-email {
+        font-family: var(--mono);
+        font-size: 1.1rem;
+        color: var(--text);
+      }
+
+      .contact-email a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      .contact-email a:hover {
+        text-decoration: underline;
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 2rem 2.5rem;
+        text-align: center;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        color: var(--muted);
+      }
+
+      /* ── SCROLL REVEAL ── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .reveal-delay-1 {
+        transition-delay: 0.1s;
+      }
+
+      .reveal-delay-2 {
+        transition-delay: 0.2s;
+      }
+
+      .reveal-delay-3 {
+        transition-delay: 0.3s;
+      }
+
+      .reveal-delay-4 {
+        transition-delay: 0.4s;
+      }
+
+      /* ── KEYFRAMES ── */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
         }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    reveals.forEach(el => observer.observe(el));
 
-    // Typing effect for role
-    const roles = [
-      'Backend Engineer & Builder',
-      'Competitive Programmer',
-      'Full-Stack Developer',
-      'Systems Thinker',
-    ];
-    let ri = 0, ci = 0, deleting = false;
-    const roleEl = document.getElementById('role-text');
-
-    function type() {
-      const current = roles[ri];
-      if (deleting) {
-        ci--;
-      } else {
-        ci++;
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
-      // rebuild text with cursor span
-      const text = current.slice(0, ci);
-      roleEl.innerHTML = text + '<span class="cursor"></span>';
 
-      let delay = deleting ? 45 : 75;
-      if (!deleting && ci === current.length) {
-        delay = 2000;
-        deleting = true;
-      } else if (deleting && ci === 0) {
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* ── REDUCED MOTION ── */
+      @media (prefers-reduced-motion: reduce) {
+        .reveal {
+          transition: none;
+        }
+
+        .hero-name,
+        .hero-role,
+        .hero-bio,
+        .hero-cta,
+        .hero-tag,
+        .hero-photo-wrap {
+          animation: none;
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      /* ── MOBILE ── */
+      @media (max-width: 700px) {
+        nav ul {
+          display: none;
+        }
+
+        .hero-inner {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-photo-wrap {
+          order: -1;
+        }
+
+        .hero-photo,
+        .hero-photo-placeholder {
+          width: 120px;
+          height: 120px;
+        }
+
+        .hero-photo-placeholder .initials {
+          font-size: 1.6rem;
+        }
+
+        .about-grid,
+        .projects-grid,
+        .skills-grid {
+          grid-template-columns: 1fr;
+        }
+
+        section {
+          padding: 4rem 1.25rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- NAV -->
+    <nav>
+      <div class="nav-logo">Tushar<span>.dev</span></div>
+      <ul>
+        <li><a href="#about">about</a></li>
+        <li><a href="#projects">projects</a></li>
+        <li><a href="#skills">skills</a></li>
+        <li><a href="#contact">contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-grid-bg"></div>
+      <div class="hero-glow"></div>
+      <div class="hero-inner">
+        <div>
+          <p class="hero-tag">// COEP Technological University · Pune</p>
+          <h1 class="hero-name">
+            Tushar<br /><span class="accent">Kachare</span>
+          </h1>
+          <p class="hero-role" id="role-text">
+            Backend Engineer &amp; Builder<span class="cursor"></span>
+          </p>
+          <p class="hero-bio">
+            E&amp;TC undergrad building full-stack systems from scratch — from
+            real-time WebSocket backends to geospatial matchmaking apps.
+            LeetCode Knight (top 5%) who ships products end-to-end.
+          </p>
+          <div class="hero-cta">
+            <a href="#projects" class="btn-primary">View Projects</a>
+            <a href="#contact" class="btn-outline">Get in Touch</a>
+            <a href="TusharResume.pdf" class="btn-outline" target="_blank"
+              >View Resume</a
+            >
+          </div>
+        </div>
+        <div class="hero-photo-wrap">
+          <img src="tushar.jpeg" alt="Tushar Kachare" class="hero-photo" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <p class="section-label reveal">// 01</p>
+      <h2 class="section-title reveal reveal-delay-1">
+        About <span class="accent">Me</span>
+      </h2>
+      <div class="section-divider reveal reveal-delay-2"></div>
+      <div class="about-grid">
+        <div class="about-text reveal reveal-delay-1">
+          <p>
+            I'm a COEP Technological University graduate who loves building
+            software and learning by doing. Instead of studying concepts in
+            isolation, I prefer taking projects from idea to deployment —
+            designing databases, building APIs, and shipping complete
+            applications.
+          </p>
+
+          <p>
+            My interests span backend engineering, system design, full-stack
+            development, and AI/ML. I've built real-time platforms, geospatial
+            applications, and machine learning projects using technologies such
+            as Node.js, PostgreSQL, React, Python, WebSockets, and PostGIS.
+          </p>
+
+          <p>
+            Outside of development, I enjoy competitive programming and problem
+            solving on LeetCode, CodeChef, and Codeforces. I've qualified for
+            Meta Hacker Cup Round 2 and achieved a global rank of 171 in
+            CodeChef Starters. I'm always looking for opportunities to tackle
+            challenging problems, build useful products, and deepen my
+            understanding of scalable systems.
+          </p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-card reveal reveal-delay-1">
+            <div class="stat-val">Knight</div>
+            <div class="stat-lbl">LeetCode · 1900+</div>
+          </div>
+          <div class="stat-card reveal reveal-delay-4">
+            <div class="stat-val">3★</div>
+            <div class="stat-lbl">CodeChef · 1733</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <p class="section-label reveal">// 02</p>
+      <h2 class="section-title reveal reveal-delay-1">
+        Featured <span class="accent">Projects</span>
+      </h2>
+      <div class="section-divider reveal reveal-delay-2"></div>
+      <div class="projects-grid">
+        <div class="project-card reveal reveal-delay-1">
+          <div class="project-header">
+            <span class="project-name">Tradr</span>
+            <span class="project-date">Mar – Apr 2026</span>
+          </div>
+          <p class="project-desc">
+            Crypto social trading platform — public trade sharing with social
+            feeds and real-time portfolio tracking. Features a single persistent
+            Binance WebSocket with in-memory price caching, a trade execution
+            engine with auto SL/TP closure, and a fully decoupled PostgreSQL
+            schema with UUID PKs and soft deletes.
+          </p>
+          <div class="project-tags">
+            <span class="tag">Node.js</span>
+            <span class="tag">Express</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">Prisma</span>
+            <span class="tag">React</span>
+            <span class="tag">WebSocket</span>
+            <span class="tag">Tailwind</span>
+          </div>
+          <a href="https://github.com/tushar-kachare/Tradr" class="project-link"
+            >↗ GitHub · Tradr</a
+          >
+        </div>
+
+        <div class="project-card reveal reveal-delay-2">
+          <div class="project-header">
+            <span class="project-name">SquadUp</span>
+            <span class="project-date">Jun 2026 – Present</span>
+          </div>
+          <p class="project-desc">
+            Hyperlocal sports matchmaking PWA where users discover nearby pickup
+            games on a map and join with one tap. Real-time slot sync via
+            Socket.io, geospatial radius filtering (1–10km) with PostGIS,
+            Firebase Auth (OTP + OAuth), and Web Push notifications for nearby
+            game alerts.
+          </p>
+          <div class="project-tags">
+            <span class="tag">Socket.io</span>
+            <span class="tag">PostGIS</span>
+            <span class="tag">Firebase</span>
+            <span class="tag">Google Maps</span>
+            <span class="tag">node-cron</span>
+            <span class="tag">React PWA</span>
+          </div>
+          <a
+            href="https://github.com/tushar-kachare/SquadUp"
+            class="project-link"
+            >↗ GitHub · SquadUp</a
+          >
+        </div>
+
+        <div class="project-card reveal reveal-delay-3">
+          <div class="project-header">
+            <span class="project-name">Drowsiness Detection</span>
+            <span class="project-date">Mar – Apr 2025</span>
+          </div>
+          <p class="project-desc">
+            Real-time driver drowsiness detection using a CNN with transfer
+            learning — 95% accuracy on a custom dataset of open/closed eye
+            images. Integrated with OpenCV for live webcam inference and
+            connected to Arduino to trigger buzzer alerts, simulating a driver
+            assistance system.
+          </p>
+          <div class="project-tags">
+            <span class="tag">Python</span>
+            <span class="tag">CNN</span>
+            <span class="tag">Transfer Learning</span>
+            <span class="tag">OpenCV</span>
+            <span class="tag">Arduino</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal reveal-delay-4">
+          <div class="project-header">
+            <span class="project-name">LiveWeb</span>
+            <span class="project-date">2024</span>
+          </div>
+          <p class="project-desc">
+            Browser-based live code editor built with Monaco Editor and a
+            sandboxed iframe preview. Write HTML, CSS, and JavaScript and see
+            results update in real time — no build step, no server. A clean,
+            minimal devtools-in-the-browser experience.
+          </p>
+          <div class="project-tags">
+            <span class="tag">Monaco Editor</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">HTML/CSS</span>
+            <span class="tag">iframe sandbox</span>
+          </div>
+          <a
+            href="https://github.com/tushar-kachare/LiveWeb"
+            class="project-link"
+            >↗ GitHub · LiveWeb</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <p class="section-label reveal">// 03</p>
+      <h2 class="section-title reveal reveal-delay-1">
+        Tech <span class="accent">Stack</span>
+      </h2>
+      <div class="section-divider reveal reveal-delay-2"></div>
+      <div class="skills-grid">
+        <div class="skill-category reveal reveal-delay-1">
+          <div class="skill-cat-title">Backend</div>
+          <div class="skill-pills">
+            <span class="skill-pill">Node.js</span>
+            <span class="skill-pill">Express.js</span>
+            <span class="skill-pill">PostgreSQL</span>
+            <span class="skill-pill">Prisma ORM</span>
+            <span class="skill-pill">PostGIS</span>
+            <span class="skill-pill">WebSocket</span>
+            <span class="skill-pill">Socket.io</span>
+            <span class="skill-pill">REST APIs</span>
+            <span class="skill-pill">node-cron</span>
+            <span class="skill-pill">Firebase Auth</span>
+          </div>
+        </div>
+
+        <div class="skill-category reveal reveal-delay-2">
+          <div class="skill-cat-title">Frontend</div>
+          <div class="skill-pills">
+            <span class="skill-pill">React.js</span>
+            <span class="skill-pill">React Router</span>
+            <span class="skill-pill">Tailwind CSS</span>
+            <span class="skill-pill">Vite</span>
+            <span class="skill-pill">PWA</span>
+            <span class="skill-pill">HTML/CSS</span>
+            <span class="skill-pill">Google Maps API</span>
+            <span class="skill-pill">Monaco Editor</span>
+          </div>
+        </div>
+
+        <div class="skill-category reveal reveal-delay-3">
+          <div class="skill-cat-title">Languages</div>
+          <div class="skill-pills">
+            <span class="skill-pill">JavaScript</span>
+            <span class="skill-pill">C++</span>
+            <span class="skill-pill">Python</span>
+            <span class="skill-pill">SQL</span>
+          </div>
+        </div>
+
+        <div class="skill-category reveal reveal-delay-4">
+          <div class="skill-cat-title">Tools & ML</div>
+          <div class="skill-pills">
+            <span class="skill-pill">Docker</span>
+            <span class="skill-pill">Git / GitHub</span>
+            <span class="skill-pill">Scikit-Learn</span>
+            <span class="skill-pill">PyTorch</span>
+            <span class="skill-pill">OpenCV</span>
+            <span class="skill-pill">YOLOv8</span>
+            <span class="skill-pill">Cloudinary</span>
+            <span class="skill-pill">Vercel</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="contact-inner">
+        <p class="section-label reveal">// 04</p>
+        <h2 class="section-title reveal reveal-delay-1">
+          Get in <span class="accent">Touch</span>
+        </h2>
+        <div
+          class="section-divider reveal reveal-delay-2"
+          style="margin: 0 auto 2.5rem"
+        ></div>
+        <p class="contact-sub reveal reveal-delay-2">
+          Open to internships, collaborations, and interesting problems. Whether
+          you want to build something together or just talk systems — my inbox
+          is open.
+        </p>
+        <div class="contact-links reveal reveal-delay-3">
+          <a
+            href="https://www.linkedin.com/in/tusharkachare2005/"
+            class="contact-link"
+            target="_blank"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+              />
+            </svg>
+            LinkedIn
+          </a>
+          <a
+            href="https://github.com/tushar-kachare"
+            class="contact-link"
+            target="_blank"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+              />
+            </svg>
+            GitHub
+          </a>
+          <a
+            href="https://leetcode.com/u/Turaka05/"
+            class="contact-link"
+            target="_blank"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0zm-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H20.79a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z"
+              />
+            </svg>
+            LeetCode
+          </a>
+        </div>
+        <p class="contact-email reveal reveal-delay-4">
+          <a href="mailto:kacharetushar05@gmail.com"
+            >kacharetushar05@gmail.com</a
+          >
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      <span>built by tushar kachare · 2026</span>
+    </footer>
+
+    <script>
+      // Scroll reveal
+      const reveals = document.querySelectorAll(".reveal");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              observer.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+      );
+      reveals.forEach((el) => observer.observe(el));
+
+      // Typing effect for role
+      const roles = [
+        "Backend Engineer & Builder",
+        "Competitive Programmer",
+        "Full-Stack Developer",
+        "Systems Thinker",
+      ];
+      let ri = 0,
+        ci = 0,
         deleting = false;
-        ri = (ri + 1) % roles.length;
-        delay = 400;
+      const roleEl = document.getElementById("role-text");
+
+      function type() {
+        const current = roles[ri];
+        if (deleting) {
+          ci--;
+        } else {
+          ci++;
+        }
+        // rebuild text with cursor span
+        const text = current.slice(0, ci);
+        roleEl.innerHTML = text + '<span class="cursor"></span>';
+
+        let delay = deleting ? 45 : 75;
+        if (!deleting && ci === current.length) {
+          delay = 2000;
+          deleting = true;
+        } else if (deleting && ci === 0) {
+          deleting = false;
+          ri = (ri + 1) % roles.length;
+          delay = 400;
+        }
+        setTimeout(type, delay);
       }
-      setTimeout(type, delay);
-    }
-    setTimeout(type, 1800);
+      setTimeout(type, 1800);
 
-    // Navbar scroll tint
-    window.addEventListener('scroll', () => {
-      document.querySelector('nav').style.borderBottomColor =
-        window.scrollY > 40 ? 'rgba(0,212,170,0.15)' : 'var(--border)';
-    });
-  </script>
-</body>
-
+      // Navbar scroll tint
+      window.addEventListener("scroll", () => {
+        document.querySelector("nav").style.borderBottomColor =
+          window.scrollY > 40 ? "rgba(0,212,170,0.15)" : "var(--border)";
+      });
+    </script>
+  </body>
 </html>
